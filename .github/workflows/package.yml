@@ -33,6 +33,8 @@ jobs:
         with:
           go-version-file: go.mod
           cache: false
+      - name: 指向公开的 netlink 镜像（上游 iniwex5/netlink 已删库）
+        run: go mod edit -replace=github.com/iniwex5/netlink=github.com/ldxw/netlink@v1.0.1
       - name: 校验模块
         run: |
           set -euo pipefail
