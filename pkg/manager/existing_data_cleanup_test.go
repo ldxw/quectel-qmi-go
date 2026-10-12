@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ldxw/vohive-release/quectel-qmi-go/pkg/qmi"
+	"github.com/iniwex5/quectel-qmi-go/pkg/qmi"
 )
 
 func TestResetExistingDataConnectionUsesExistingCoreClient(t *testing.T) {

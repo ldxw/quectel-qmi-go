@@ -1,9 +1,9 @@
-module github.com/ldxw/vohive-release/quectel-qmi-go
+module github.com/iniwex5/quectel-qmi-go
 
 go 1.24.0
 
 require (
-	github.com/ldxw/vohive-release/netlink v1.0.0
+	github.com/iniwex5/netlink v1.3.3
 	github.com/sirupsen/logrus v1.9.4
 	github.com/warthog618/sms v0.3.0
 	go.uber.org/zap v1.27.1

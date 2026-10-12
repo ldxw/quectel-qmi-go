@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ldxw/vohive-release/quectel-qmi-go/pkg/qmi"
+	"github.com/iniwex5/quectel-qmi-go/pkg/qmi"
 )
 
 func TestAllocateServicesUsesCallerContextForClientIDAllocation(t *testing.T) {
