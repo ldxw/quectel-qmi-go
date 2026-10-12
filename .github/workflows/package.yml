@@ -1,0 +1,55 @@
+name: Package
+
+# 手动触发：校验构建并打 vX.Y.Z tag（本仓库单模块，tag 直接是 vX.Y.Z）
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号（不含 v，例如 1.5.0）'
+        required: true
+        default: '1.0.0'
+      push_tag:
+        description: '是否创建并推送 tag（true/false）'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: package
+  cancel-in-progress: false
+
+env:
+  GOFLAGS: -mod=mod
+
+jobs:
+  package:
+    name: 打包
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
+      - name: 校验模块
+        run: |
+          set -euo pipefail
+          go mod tidy
+          go build ./...
+          echo "校验通过"
+      - name: 打 tag 并推送
+        if: ${{ inputs.push_tag == 'true' }}
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          VERSION="${VERSION#v}"
+          TAG="v${VERSION}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then echo "$TAG 已存在，跳过"; exit 0; fi
+          git tag -a "$TAG" -m "release $TAG（手动打包）"
+          git push origin "$TAG"
+          echo "已发布 $TAG"
